@@ -28,37 +28,36 @@ In this scenario, you manage a network where multiple ISPs provide connectivity 
 ### Mermaid Diagram:
 
 ```mermaid
-graph TD
-    subgraph Site 1
-        CE1[Customer Edge Router 1]
+graph TB
+    subgraph OSPF Backbone Area 0
+        R1[R1: ABR] --> |LSA Type 1| R2[R2: Internal Router]
+        R2 --> |LSA Type 1| R3[R3: Internal Router]
     end
     
-    subgraph Site 2
-        CE2[Customer Edge Router 2]
+    subgraph OSPF Area 1
+        R1 --> |LSA Type 3 (Summary)| R4[R4: Internal Router]
+        R4 --> |LSA Type 1| R5[R5: Internal Router]
+        R5 --> |LSA Type 1| R6[R6: Internal Router]
     end
     
-    subgraph MPLS_Backbone[MPLS Backbone]
-        MPLS1 -- MPLS --> MPLS2
-        CE1 -- BGP --> MPLS1
-        CE2 -- BGP --> MPLS2
+    subgraph OSPF Area 2
+        R1 --> |LSA Type 3 (Summary)| R7[R7: Internal Router]
+        R7 --> |LSA Type 1| R8[R8: Internal Router]
+        R8 --> |LSA Type 1| R9[R9: Internal Router]
     end
     
-    subgraph ISP_1
-        PE1[Provider Edge Router 1]
+    subgraph OSPF Area 3 (Stub)
+        R3 --> |LSA Type 3 (Default)| R10[R10: Internal Router]
+        R10 --> |LSA Type 1| R11[R11: Internal Router]
     end
     
-    subgraph ISP_2
-        PE2[Provider Edge Router 2]
+    subgraph OSPF Area 4 (IPv6)
+        R2 --> |LSA Type 3 (Summary)| R12[R12: Internal Router]
+        R12 --> |LSA Type 1| R13[R13: Internal Router]
     end
     
-    CE1 -- BGP --> PE1
-    CE1 -- BGP --> PE2
-    
-    CE2 -- BGP --> PE1
-    CE2 -- BGP --> PE2
-    
-    PE1 -- BGP --> Internet[(Internet)]
-    PE2 -- BGP --> Internet[(Internet)]
+    R1 --> |Route Summarization| R0[Internet Gateway]
+
 ```
 
 ### Explanation:
