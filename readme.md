@@ -79,7 +79,6 @@ graph TD
 - **Load Balancing**: BGP's traffic engineering capabilities allow you to distribute traffic across multiple links, optimizing performance and ensuring efficient use of resources.
 - **Scalability**: The integration of BGP with MPLS allows the network to scale easily as the organization grows, accommodating new sites and increasing traffic demands.
 
-Here’s a detailed Mermaid diagram illustrating a multi-area OSPF configuration that includes area design, route summarization, and both IPv4 and IPv6 environments:
 
 ```mermaid
 graph TB
