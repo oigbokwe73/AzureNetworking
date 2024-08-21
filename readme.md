@@ -25,7 +25,6 @@ In this scenario, you manage a network where multiple ISPs provide connectivity 
    - BGP is used to ensure that if one ISP link fails, traffic is automatically rerouted through the other ISP.
    - Load balancing is achieved by configuring BGP to distribute traffic across multiple available paths.
 
-### Mermaid Diagram:
 
 ```mermaid
 graph TD
@@ -79,7 +78,7 @@ graph TD
 - **Load Balancing**: BGP's traffic engineering capabilities allow you to distribute traffic across multiple links, optimizing performance and ensuring efficient use of resources.
 - **Scalability**: The integration of BGP with MPLS allows the network to scale easily as the organization grows, accommodating new sites and increasing traffic demands.
 
-
+Here’s a detailed diagram illustrating a multi-area OSPF configuration that includes area design, route summarization, and both IPv4 and IPv6 environments:
 ```mermaid
 graph TB
     subgraph OSPF Backbone Area 0
