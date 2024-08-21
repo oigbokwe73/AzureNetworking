@@ -147,3 +147,79 @@ graph TB
 - **IPv6 (OSPFv3)**: The latest version of OSPF that supports both IPv4 and IPv6 networks, ensuring compatibility with modern networking environments.
 
 This diagram captures the complexity of multi-area OSPF configurations, illustrating how OSPF can be tuned and optimized for different network environments, including those involving IPv6.
+
+### Use Case: Implementing EIGRP in a Hybrid Cloud Environment with Azure
+
+#### Scenario:
+A global enterprise is operating a hybrid cloud environment with critical applications hosted both on-premises and in Azure. The company requires a routing protocol that provides rapid convergence, scalability, and resilience across its network to ensure uninterrupted service and optimal performance. Enhanced Interior Gateway Routing Protocol (EIGRP) is selected to manage dynamic routing between the on-premises network and the Azure Virtual Network (VNet).
+
+#### Objective:
+- Utilize EIGRP to manage routing between the on-premises data center and the Azure VNet, ensuring rapid convergence and efficient network utilization.
+- Implement route summarization and advanced metrics in EIGRP to minimize routing overhead and ensure optimal path selection.
+- Extend EIGRP to support both IPv4 and IPv6 networks within the hybrid cloud environment.
+
+#### Components:
+1. **On-Premises Data Center**:
+   - Routers configured with EIGRP for dynamic routing within the data center.
+   - Connection to Azure through a Site-to-Site VPN using EIGRP for route distribution.
+
+2. **Azure Virtual Network (VNet)**:
+   - Hosts enterprise applications.
+   - Connected to the on-premises network via a VPN Gateway that supports EIGRP.
+
+3. **VPN Gateway**:
+   - Serves as the termination point for the Site-to-Site VPN.
+   - Configured to support EIGRP for dynamic route exchange between the on-premises network and Azure.
+
+4. **EIGRP Configuration**:
+   - EIGRP is configured on the on-premises routers to handle route summarization, metric calculations, and rapid convergence.
+   - Routes are propagated across the VPN tunnel to the Azure VNet, ensuring consistent routing across the hybrid environment.
+   - EIGRP supports both IPv4 and IPv6 routing in the hybrid cloud environment.
+
+### Workflow:
+1. **EIGRP Setup**: Configure EIGRP on all on-premises routers to manage internal and external routing with route summarization.
+2. **VPN Setup**: Establish a Site-to-Site VPN tunnel between the on-premises network and Azure VNet.
+3. **EIGRP over VPN**: Configure the VPN Gateway to support EIGRP, allowing dynamic exchange of routes between the on-premises network and Azure VNet.
+4. **Advanced Metrics**: Use EIGRP’s advanced metrics to optimize routing paths based on bandwidth, delay, reliability, and load.
+5. **IPv4 and IPv6 Support**: Ensure that EIGRP is configured to support both IPv4 and IPv6 routing across the entire hybrid cloud environment.
+
+### Detailed Mermaid Diagram:
+
+```mermaid
+graph TB
+    subgraph On-Premises Data Center
+        R1[R1: EIGRP Router] --> |EIGRP Metrics| R2[R2: EIGRP Router]
+        R2 --> |EIGRP Route Summarization| R3[R3: EIGRP Router]
+        R3 --> |EIGRP IPv4 and IPv6| ER(Edge Router)
+    end
+    
+    subgraph Azure Cloud
+        VPNG(VPN Gateway) -- EIGRP --> VNet[Azure VNet]
+    end
+    
+    ER -- Site-to-Site VPN --> VPNG
+    ER -- EIGRP Route Propagation --> VPNG
+    VPNG -- EIGRP Routes --> ER
+```
+
+### Explanation:
+- **On-Premises Data Center**:
+  - **R1**, **R2**, and **R3** are routers within the data center configured with EIGRP for managing internal routing.
+  - **R1** and **R2** use EIGRP’s advanced metrics to optimize routing decisions based on network performance indicators such as bandwidth and delay.
+  - **R2** performs route summarization to reduce the number of routes advertised to other areas of the network, minimizing routing table sizes and improving efficiency.
+  - **R3** manages both IPv4 and IPv6 routes using EIGRP, ensuring that the data center can handle traffic in both address spaces.
+
+- **VPN Setup**:
+  - **ER** (Edge Router) connects the on-premises network to Azure via a Site-to-Site VPN tunnel.
+  - The Edge Router is configured to propagate EIGRP routes across the VPN tunnel to the Azure VPN Gateway.
+
+- **Azure Cloud**:
+  - **VPNG** (VPN Gateway) serves as the Azure endpoint for the Site-to-Site VPN connection. It is configured to support EIGRP, enabling dynamic route exchange between the on-premises network and the Azure VNet.
+  - The **VNet** within Azure receives EIGRP routes from the VPN Gateway, allowing seamless routing across the hybrid environment.
+
+### Key Concepts:
+- **EIGRP Metrics**: EIGRP uses a composite metric based on bandwidth, delay, reliability, load, and MTU to determine the best path to a destination. These metrics allow EIGRP to select optimal routes that can adapt to changing network conditions.
+- **Route Summarization**: Reduces the size of routing tables by summarizing multiple routes into a single advertisement, minimizing the overhead associated with routing updates.
+- **IPv4 and IPv6 Support**: EIGRP’s flexibility in handling both IPv4 and IPv6 routes makes it suitable for environments that are transitioning to IPv6 or are operating in a dual-stack configuration.
+
+This use case demonstrates how EIGRP can be effectively used in a hybrid cloud environment with Azure, leveraging its strengths in rapid convergence, route summarization, and advanced metrics to maintain a robust and efficient network.
