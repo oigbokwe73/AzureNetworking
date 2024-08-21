@@ -223,3 +223,87 @@ graph TB
 - **IPv4 and IPv6 Support**: EIGRP’s flexibility in handling both IPv4 and IPv6 routes makes it suitable for environments that are transitioning to IPv6 or are operating in a dual-stack configuration.
 
 This use case demonstrates how EIGRP can be effectively used in a hybrid cloud environment with Azure, leveraging its strengths in rapid convergence, route summarization, and advanced metrics to maintain a robust and efficient network.
+
+### Use Case: Implementing an MPLS VPN Solution for Hybrid Cloud Connectivity with Azure
+
+#### Scenario:
+A multinational corporation operates a hybrid cloud infrastructure, with critical applications hosted both on-premises and in Azure. To ensure secure and reliable connectivity between various global office locations, data centers, and Azure regions, the corporation decides to implement an MPLS VPN solution. The goal is to leverage MPLS for efficient routing across the corporate WAN and Azure while using BGP to manage label distribution and path selection across the MPLS backbone.
+
+#### Objective:
+- Establish a secure MPLS VPN connection between on-premises data centers and Azure VNets in different regions.
+- Use BGP to manage MPLS label distribution and path selection across the WAN.
+- Integrate MPLS with existing routing protocols within Azure and on-premises environments to ensure seamless and efficient data flow.
+- Optimize MPLS traffic engineering to ensure high performance and availability of critical applications.
+
+#### Components:
+1. **On-Premises Data Centers**:
+   - Multiple data centers across different regions, each connected to the MPLS backbone.
+   - BGP is used within the data centers for routing and MPLS label distribution.
+
+2. **MPLS Backbone**:
+   - The MPLS network connects all the corporate locations, including data centers and branch offices.
+   - BGP manages the label distribution and path selection for traffic routing across the MPLS network.
+
+3. **Azure Virtual Networks (VNets)**:
+   - VNets deployed in multiple Azure regions, connected via Azure VPN Gateway or Azure ExpressRoute to the MPLS backbone.
+   - BGP is used within Azure to exchange routing information with the MPLS network.
+
+4. **Azure VPN Gateway/ExpressRoute**:
+   - Provides secure connectivity between Azure VNets and the on-premises MPLS network.
+   - Supports BGP to dynamically exchange routing information and MPLS labels between Azure and on-premises.
+
+5. **Traffic Engineering**:
+   - MPLS traffic engineering (TE) is used to optimize the flow of traffic across the MPLS backbone, ensuring efficient use of bandwidth and high performance for critical applications.
+
+### Workflow:
+1. **MPLS and BGP Configuration**:
+   - Configure MPLS across the WAN to ensure label distribution and path selection are managed by BGP.
+   - Configure BGP sessions between on-premises routers and Azure VPN Gateways/ExpressRoute to exchange routing information and MPLS labels.
+
+2. **Azure Connectivity**:
+   - Establish VPN or ExpressRoute connections between Azure VNets and the MPLS backbone.
+   - Ensure that BGP is configured to dynamically exchange routes between the Azure VNets and on-premises data centers.
+
+3. **Traffic Optimization**:
+   - Use MPLS TE to prioritize traffic flows, ensuring that critical applications receive the necessary bandwidth and low-latency paths.
+   - Monitor and adjust BGP path selection and MPLS label distribution to maintain optimal network performance.
+
+### Mermaid Diagram:
+
+```mermaid
+graph TB
+    subgraph MPLS Backbone
+        DC1[On-Premises Data Center 1] -- MPLS Labels/BGP --> PE1[Provider Edge Router 1]
+        DC2[On-Premises Data Center 2] -- MPLS Labels/BGP --> PE2[Provider Edge Router 2]
+        BO1[Branch Office 1] -- MPLS Labels/BGP --> PE3[Provider Edge Router 3]
+        BO2[Branch Office 2] -- MPLS Labels/BGP --> PE4[Provider Edge Router 4]
+        PE1 -- MPLS Core --> P1[Provider Core Router 1]
+        PE2 -- MPLS Core --> P1
+        PE3 -- MPLS Core --> P2[Provider Core Router 2]
+        PE4 -- MPLS Core --> P2
+    end
+    
+    subgraph Azure Region 1
+        VNet1[Azure VNet 1] --> |BGP/MPLS| VGW1[Azure VPN Gateway/ExpressRoute 1]
+    end
+    
+    subgraph Azure Region 2
+        VNet2[Azure VNet 2] --> |BGP/MPLS| VGW2[Azure VPN Gateway/ExpressRoute 2]
+    end
+    
+    VGW1 -- Site-to-Site VPN/ExpressRoute --> PE1
+    VGW2 -- Site-to-Site VPN/ExpressRoute --> PE2
+```
+
+### Explanation:
+- **MPLS Backbone**: The on-premises data centers (DC1 and DC2) and branch offices (BO1 and BO2) are connected to the MPLS backbone via Provider Edge Routers (PE1 to PE4). BGP is used within the MPLS backbone to manage label distribution and path selection. The Provider Core Routers (P1 and P2) handle the core MPLS switching.
+
+- **Azure Regions**:
+  - **Azure Region 1**: The Azure VNet1 is connected to the MPLS backbone through Azure VPN Gateway/ExpressRoute (VGW1). BGP is configured to exchange routing information and MPLS labels between VNet1 and the on-premises MPLS network.
+  - **Azure Region 2**: Similarly, Azure VNet2 in a different Azure region is connected to the MPLS backbone through VGW2.
+
+- **Site-to-Site VPN/ExpressRoute**: The Azure VPN Gateway/ExpressRoute in each region establishes a secure connection to the on-premises MPLS network, allowing for dynamic routing using BGP and MPLS label distribution.
+
+- **Traffic Engineering**: MPLS TE is implemented within the backbone to ensure that critical applications receive prioritized bandwidth and optimal paths, ensuring efficient data flow across the entire network.
+
+This configuration demonstrates how MPLS, combined with BGP and Azure connectivity options like VPN Gateway or ExpressRoute, can be used to build a robust, scalable, and efficient hybrid cloud network infrastructure.
