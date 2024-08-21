@@ -89,28 +89,29 @@ graph TB
     end
     
     subgraph OSPF Area 1
-        R1 --> |LSA Type 3 (Summary)| R4[R4: Internal Router]
+        R1 --> |LSA Type 3 Summary| R4[R4: Internal Router]
         R4 --> |LSA Type 1| R5[R5: Internal Router]
         R5 --> |LSA Type 1| R6[R6: Internal Router]
     end
     
     subgraph OSPF Area 2
-        R1 --> |LSA Type 3 (Summary)| R7[R7: Internal Router]
+        R1 --> |LSA Type 3 Summary| R7[R7: Internal Router]
         R7 --> |LSA Type 1| R8[R8: Internal Router]
         R8 --> |LSA Type 1| R9[R9: Internal Router]
     end
     
-    subgraph OSPF Area 3 (Stub)
-        R3 --> |LSA Type 3 (Default)| R10[R10: Internal Router]
+    subgraph OSPF Area 3 Stub
+        R3 --> |LSA Type 3 Default| R10[R10: Internal Router]
         R10 --> |LSA Type 1| R11[R11: Internal Router]
     end
     
-    subgraph OSPF Area 4 (IPv6)
-        R2 --> |LSA Type 3 (Summary)| R12[R12: Internal Router]
+    subgraph OSPF Area 4 IPv6
+        R2 --> |LSA Type 3 Summary| R12[R12: Internal Router]
         R12 --> |LSA Type 1| R13[R13: Internal Router]
     end
     
     R1 --> |Route Summarization| R0[Internet Gateway]
+
 ```
 
 ### Explanation:
